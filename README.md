@@ -1,6 +1,6 @@
-# Empowerment---API
-this development proposes the construction of authenticated middleware to consume financial services and persist their preferences
-
+# Empowerment-API
+this development proposes the construction of authenticated middleware to consume financial services and persist their preferences. In this repository we use python 3.10 <br /> 
+For more details you can visited: [Page Notions](https://striped-cantaloupe-6b5.notion.site/Empowerment-Labs-Business-Case-49fde01561c24bec8f6062ba81dc0a67)
 
 # Empowerment Labs (Business Case)
 
