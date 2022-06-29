@@ -11,17 +11,16 @@ def available_companies():
     url = Polygon('available_companies')
     url_auth = f'{url}?apiKey={Setting.polygon_auth}'
     info_companies = requests.get(url_auth)
-    companies = []
+    symbols = []
 
-    utf_string = info_companies.content.decode("UTF-8")
-    info_companies = json.loads(info_companies.content)['results']
+    companies = json.loads(info_companies.content)['results']
 
     if info_companies.status_code == 200:
-        for company in info_companies.keys():
-            company_tracker = info_companies.get('ticker', False)
+        for company in companies:
+            company_tracker = company.get('ticker', False)
             if company_tracker:
-                companies.append(company_tracker)
-        return companies
+                symbols.append(company_tracker)
+        return symbols
     else:
         return "Intente nuevamente"
 
