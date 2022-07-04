@@ -1,5 +1,6 @@
 import datetime
-
+import boto3
+from boto3.dynamodb.conditions import Key
 from src.utils.conect_dynamo import init_dynamo_db
 
 
@@ -41,12 +42,11 @@ def create_user(_table_name, _user_id, _favorite_companies, _discarded_companies
         dynamo_db = init_dynamo_db()
         table = dynamo_db.Table(_table_name)
 
-        response = table.put_item(Item=
-        {
+        response = table.put_item(Item={
             'user_id': _user_id,
             'favorite_companies': _favorite_companies,
             'discarded_companies': _discarded_companies,
-            'created_at': datetime.datetime.now()
+            'created_at': str(datetime.datetime.now())
         }
         )
         return response
@@ -59,35 +59,37 @@ def update_favorite_companies(_table_name, _user_id, _favorite_companies):
         dynamo_db = init_dynamo_db()
         table = dynamo_db.Table(_table_name)
 
-        response = table.update_item(Key=
-        {
-            'user_id': _user_id
-        },
-            UpdateExpression="set favorite_companies.name=:t1",
-            ExpressionAttributeValues={
-                ':t1': _favorite_companies
-            }
-        )
-
+        response = table.update_item(Key={'user_id': _user_id},
+                                     UpdateExpression="set favorite_companies=:t1",
+                                     ExpressionAttributeValues={':t1': _favorite_companies}
+                                     )
         return response
     except Exception as ex:
         raise ex
 
 
-def update__discarded_companies(_table_name, _user_id, _discarded_companies):
+def get_atribute(_table_name, _user_id, _atribute):
     try:
         dynamo_db = init_dynamo_db()
         table = dynamo_db.Table(_table_name)
 
-        response = table.update_item(Key=
-        {
-            'user_id': _user_id
-        },
-            UpdateExpression="set _discarded_companies.name=:t1",
-            ExpressionAttributeValues={
-                ':t1': _discarded_companies
-            }
-        )
+        response = table.query(
+            KeyConditionExpression = Key('user_id').eq(_user_id)
+                               )
+        return response
+    except Exception as ex:
+        raise ex
+
+
+def update_discarded_companies(_table_name, _user_id, _discarded_companies):
+    try:
+        dynamo_db = init_dynamo_db()
+        table = dynamo_db.Table(_table_name)
+
+        response = table.update_item(Key={'user_id': _user_id},
+                                     UpdateExpression="set _discarded_companies=:t1",
+                                     ExpressionAttributeValues={':t1': _discarded_companies}
+                                     )
     except Exception as ex:
         raise ex
 
