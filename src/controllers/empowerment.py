@@ -5,9 +5,9 @@ import datetime
 from typing import List
 from fastapi.responses import JSONResponse
 from fastapi import APIRouter, Depends, Response, status, HTTPException
-from src.utils import manage_datatime
-from src.clients.auth import validate_jwt
-from src.repositories import business_logical
+from utils import manage_datatime
+from clients.auth import validate_jwt
+from repositories import business_logical
 
 empowerment_router = APIRouter(
     prefix="/empowerment",

@@ -4,9 +4,9 @@ import json
 import requests
 from datetime import datetime
 from requests_oauthlib import OAuth1
-from src.repositories import bd_empowerment
-from src.config.settings import Setting
-from src.enums.token_fixed import Polygon
+from repositories import bd_empowerment
+from config.settings import Setting
+from enums.token_fixed import Polygon
 
 
 def available_companies():
