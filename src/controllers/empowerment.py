@@ -129,7 +129,7 @@ def pull_price_favorite(id: str, date: str):
 @empowerment_router.get(
     "/extract_all",
     status_code=status.HTTP_200_OK,
-    summary="endpoint for pull price favorite companies, this endpoint no adjust the price"
+    summary="returns the price of the available companies"
 )
 async def pull_price_all(date: str):
     try:

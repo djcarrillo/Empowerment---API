@@ -1,7 +1,3 @@
-# Empowerment-API
-this development proposes the construction of authenticated middleware to consume financial services and persist their preferences. In this repository we use python 3.10 <br /> 
-For more details you can visited: [Page Notions](https://striped-cantaloupe-6b5.notion.site/Empowerment-Labs-Business-Case-49fde01561c24bec8f6062ba81dc0a67)
-
 # Empowerment Labs (Business Case)
 
 ## Historia de Usuario
@@ -25,15 +21,32 @@ En un primer MVP este servicio cumple el rol de middware a la vez que administra
 
 ![Untitled Diagram.drawio.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/d9aec9a9-d8b2-4cd9-8023-f8392f488036/Untitled_Diagram.drawio.png)
 
-Endpoint para extraer las compañias suceptibles a ser trakeadas.
+## End Points
 
-Endpoint para almacenar las preferencias. 
+Para satisfacer los requerimientos de usuario se un servicio propone dockerizado sobre GCP (docker run) que disponibilice 5 end points tipo get y dos tipo post. 
 
-Endpoint para conocer el valor de una acción en un intervalo de tiempo
+### Verbos tipo GET:
 
-Endpoint para descargar el reponse como csv
+- Server status: {{baseUrl}}/empowerment/test
+- Symbols disponibles: {{baseUrl}}/empowerment/available_symbols
+- Precio de Symbols: {{baseUrl}}/empowerment/price_symbol?symbols=nisi amet&date=tempor laboris nulla&adjusted=ullamco dolore
+- Consulta de compañia favorita: {{baseUrl}}/empowerment/price_symbol?symbols=nisi amet&date=tempor laboris nulla&adjusted=ullamco dolore
+- Consulta de todas las compañias de interes: {{baseUrl}}/empowerment/extract_all?date=tempor laboris nulla:
 
-## Polygon
+### Verbos tipo POST:
+
+- creación de un nuevo usuario: {{baseUrl}}/empowerment/created_user?id=ipsum esse sit
+- update de compañias favoritas: {{baseUrl}}/empowerment/send_favorite_companies?id=ipsum esse sit
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/40d15d42-d102-49d8-972b-95b6e1209223/Untitled.png)
+
+                                                            colección en postman
+
+Es importante mencionar que todas los endpoints son autenticados, y para este mvp, el token de autenticación se ha fijado a ”xx”
+
+## Fuentes
+
+### Polygon
 
 Polygon es un servicio que disponibiliza a sus usuarios los movimientos de acciones registrados en la bolsa de  New York, siendo esta una de las fuentes más usadas para este segmento de negocio en el mundo:  [more information here](https://polygon.io/)
 
@@ -43,10 +56,105 @@ El listado completo de endpoints de plataforma es listado [aquí](https://polygo
 
 Para este busineess case haremos uso de:
 
-- /v2/snapshot/locale/global/markets/forex/tickers : Fuente en MVP de las compañias listadas.
+- /v2/snapshot/locale/global/markets/forex/tickers : Fuente en MVP de las compañías listadas.
 - /v2/reference/news: Notias de la compañia consultada
-- /v1/open-close/{stocksTicker}/{date}: Precio de la accción apertura / cierre en eun dia determinado:
+- /v1/open-close/{stocksTicker}/{date}: Precio de la acción apertura / cierre en eun dia determinado:
     
     Ejemplo de uso:
     
     [Parametros del endpoint](https://www.notion.so/f8ccd35aeeca4f54b3e02499ded4d795)
+    
+
+### BD Dynamo
+
+Estructura Base de Datos
+
+{
+
+user_id: Object(user_id  MD5):
+
+favorite_companies: [
+
+ {
+
+name: string,
+
+created_at: timestamp
+
+},
+
+{
+
+name: string,
+
+created_at: timestamp
+
+},
+
+{
+
+name: string,
+
+created_at: timestamp
+
+}
+
+],
+
+discarded_companies:
+
+[
+
+{
+
+name: string,
+
+created_at: timestamp
+
+},
+
+{
+
+name: string,
+
+created_at: timestamp
+
+}
+
+], 
+
+created_at: timestamp
+
+}
+
+# Lite Version
+
+{
+
+user_id_md5: 
+
+{
+
+favorite_companies: [string, string, string, string, string],
+
+discarded_companies: [string, string, string, string, string],
+
+created_at: timestamp
+
+},
+
+user_id_md5: 
+
+{
+
+favorite_companies: [string, string, string, string, string],
+
+discarded_companies: [string, string, string, string, string],
+
+created_at: timestamp
+
+}
+
+}
+
+##
